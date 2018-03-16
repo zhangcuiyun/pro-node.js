@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<a class="btn btn-default" href="/seller/add-goods">添加商品</a>
+
+{% if goodsList!='' %}
+<table class="table">
+    <tr>
+        <th>名称</th>
+        <th>缩略图</th>
+        <th>价格</th>
+        <th>尺码</th>
+        <th>款式</th>
+        <th>操作</th>
+    </tr>
+    {% for item in goodsList %}
+    <tr>
+        <td>{{item.title}}</td>
+        <td><img src="{{item.smallImage}}" alt=""></td>
+        <td>{{item.price}}</td>
+        <td>{{item.size.toString().split(',').join('/')}}</td>
+        <td>{{item.style.toString().split(',').join('/')}}</td>
+        <td>
+            <a class="btn btn-default modify" data-info={{JSON.stringify(item)}}>修改</a>
+            <button class="btn btn-danger delete"  data-info={{JSON.stringify(item)}}>删除</button>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% else %}
+<h2>您还没商品,请上传</h2>
+{% endif%}
+
+
+{% endblock %}
+
+{% block css %}
+<style>
+    .table img{
+        width: 40px;
+    }
+    .table{
+        margin-top: 20px;
+    }
+    .table tr td,.table tr th{
+       text-align: center;
+    }
+</style>
+{% endblock %}
+{% block js %}
+<script src="/public/seller/js/goodsList.js"></script>
+<script src="/public/seller/js/jquery.cookie.js"></script>
+{% endblock %}

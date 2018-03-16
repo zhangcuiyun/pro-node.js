@@ -1,0 +1,202 @@
+const express=require('express');
+const router=express.Router();
+const Seller=require('../../models/seller');
+const Goods=require('../../models/goods');
+const multiparty=require('multiparty');
+router.post('/register',(req,res)=>{
+    let{username,password,repassword,logo,banner}=req.body;
+    if(!username||!password||!repassword){
+        res.json({
+            status:1,
+            message:'参数不能为空'
+        });
+        return;
+    }
+    if(password!=repassword){
+        res.json({
+            status:2,
+            message:'两次输入的密码不一致'
+        });
+        return;
+    }
+    Seller.findOne({
+        username
+    }).then((result)=>{
+        if(result){
+            res.json({
+                status:3,
+                message:'用户已经存在'
+            });
+        }else{
+           let seller=new Seller({
+               username,
+               password,
+               logo,
+               banner
+           });
+           seller.save().then((info)=>{
+               if(info){
+                   res.json({
+                       status:0,
+                       message:'注册成功'
+                   })
+               }else{
+                   res.json({
+                       status:4,
+                       message:'注册失败,数据库错误'
+                   })
+               }
+           })
+        }
+    })
+});
+router.post('/login',(req,res)=>{
+    let{username,password}=req.body;
+    if(!username||!password){
+        res.json({
+            status:1,
+            message:'输入不能为空'
+        });
+        return;
+    }
+    Seller.findOne({
+        username
+    }).then((result)=>{
+        if(result){
+            if(result.password==password){
+                req.cookies.set('SELLERID',result._id);
+                res.json({
+                    status:0,
+                    message:'登录成功'
+                })
+                return;
+            }else{
+                res.json({
+                    status:3,
+                    message:'密码有误'
+                });
+                return;
+            }
+        }else{
+           res.json({
+               status:2,
+               message:'用户名不存在'
+           })
+        }
+    })
+});
+router.post('/upload',(req,res)=>{
+    let form=new multiparty.Form();
+    form.uploadDir='./static/tmp';
+    form.parse(req,function (error,fields,files) {
+        if(!error){
+            let arr=files.images.map((item,index)=>{
+                let path=item.path.replace(/static/,'/public');
+                return path;
+            });
+            res.json({
+                status:0,
+                message:'上传成功',
+                data:{
+                    imagesPath:arr
+                }
+            })
+        }else{
+            res.json({
+                status:1,
+                message:'上传错误'
+            })
+        }
+
+    })
+
+});
+router.post('/add-goods',(req,res)=>{
+    let{title,description,smallImage,bigImages,price,style,size}=req.body;
+    if(!title||!smallImage||!bigImages||!price||!style||!size){
+        res.json({
+            status:1,
+            message:'参数不能为空'
+        });
+        return;
+    }
+  //保存数据
+    console.log(req.sellerInfo);
+    let goods=new Goods({
+        title,
+        description,
+        smallImage,
+        bigImages,
+        price,
+        style,
+        size,
+        seller:req.sellerInfo._id
+    });
+    goods.save().then(info=>{
+        if(info){
+            res.json({
+                status:0,
+                message:'保存成功',
+            })
+        }else{
+            res.json({
+                status:2,
+                message:'数据库错误,保存失败'
+            })
+        }
+    })
+});
+router.post('/delete-goods',(req,res)=>{
+    let {goodsid}=req.body;
+    Goods.remove({_id:goodsid}).then((result)=>{
+        if(result){
+            console.log('删除成功');
+            res.json({
+                status:0,
+                message:"删除成功",
+            });
+            res.redirect('/seller/goodsList'); //怎么这里没有重定向?
+        }else{
+            console.log('删除失败');
+            res.json({
+                status:1,
+                message:"删除失败",
+            })
+
+        }
+    })
+});
+router.post('/modify-goods',(req,res)=>{
+    let{title,smallImage,price,style,size,goodsid}=req.body;
+    if(!title||!smallImage||!price||!style||!size){
+        res.json({
+            status:1,
+            message:'参数不能为空'
+        });
+        return;
+    }
+    Goods.findByIdAndUpdate(goodsid,{
+        title,
+        smallImage,
+        price,
+        style,
+        size,
+    },(error,result)=>{
+        if(!error){
+            if(result){
+                res.json({
+                    status:0,
+                    message:'更新成功'
+                })
+            }
+        }else{
+            res.json({
+                status:1,
+                message:'更新不成功,请重试'
+            })
+        }
+
+    })
+});
+
+module.exports=router;

@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<a class="btn btn-default" href="/seller/goodsList">返回</a>
+<h1>添加商品</h1>
+<div>
+    <div class="form-group">
+        <label>名称:</label>
+        <input name="title" type="text" class="form-control" placeholder="名称"/>
+    </div>
+    <div class="form-group">
+        <label>商品描述:</label>
+        <textarea name="" id="des" class="form-control"></textarea>
+    </div>
+    <form action="" enctype="multipart/form-data" id="smallForm">
+        <div class="form-group">
+            <label>请上传商品缩略图:</label>
+            <input id="smallInput" name="images" type="file" />
+            <img class="small-image"/>
+        </div>
+    </form>
+    <form action="" enctype="multipart/form-data" id="bigForm">
+        <div class="form-group">
+            <label>请上传商品详情图:</label>
+            <input name="images" type="file" id="bigInput" multiple/>
+            <div class="big-image-list">
+
+            </div>
+        </div>
+    </form>
+    <div class="form-group">
+        <label>价格：</label>
+        <input name="price" class="form-control" type="number" placeholder="价格"/>
+    </div>
+    <!--size 和 style-->
+    <div class="form-group">
+        <label>size:</label>
+        <input name="size" type="text"  placeholder="size"/>  <button type="button" id="size_confirm">确认</button>
+        <ul class="size-wrapper clearfix">
+        </ul>
+    </div>
+    <div class="form-group">
+        <label>style:</label>
+        <input name="style" type="text"  placeholder="style"/>  <button type="button" id="style_confirm">确认</button>
+        <ul class="style-wrapper">
+
+        </ul>
+    </div>
+
+    <button id="confirm" class="btn btn-success btn-block" type="button">添加商品</button>
+    <button class="btn btn-danger btn-block" type="button">取消</button>
+</div>
+
+{% endblock%}
+{% block js%}
+<script src="/public/seller/js/addGoods.js"></script>
+{% endblock%}
+
+{% block css%}
+<style type="text/css" rel="stylesheet">
+   .size-wrapper,.style-wrapper{
+       width: 200px;
+       list-style: none;
+   }
+   .size-wrapper li,.style-wrapper li{
+      float: left;
+       margin-left: 10px;
+       border: 1px solid #000;
+       position: relative;
+       padding-right:10px;
+   }
+   .small-image{
+       width: 200px;
+       height: 200px;
+   }
+   .big-image-list{
+       width: 600px;
+       /*margin: 0 auto;*/
+   }
+   .big-image-list img{
+       width: 600px;
+   }
+   .size-wrapper li .size_x{
+       position: absolute;
+       right: 0px;
+       top: 0px;
+       display: block;
+       width: 10px;
+       height: 10px;
+       font-size: 10px;
+       color: red;
+       cursor: pointer;
+   }
+   .style-wrapper li .style_x{
+       position: absolute;
+       right: 0px;
+       top: 0px;
+       display: block;
+       width: 10px;
+       height: 10px;
+       font-size: 10px;
+       color: red;
+       cursor: pointer;
+   }
+
+</style>
+{% endblock%}

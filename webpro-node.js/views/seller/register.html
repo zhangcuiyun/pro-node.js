@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>buyer</title>
+    <link rel="stylesheet" type="text/css" href="/public/bootstrap/css/bootstrap.css">
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/public/bootstrap/js/bootstrap.js"></script>
+    <script src="/public/seller/js/register.js"></script>
+</head>
+<body>
+<h1>注册</h1>
+<div>
+    <div class="form-group">
+        <label>用户名:</label>
+        <input name="user" type="text" class="form-control" placeholder="请输入用户名"/>
+    </div>
+    <div class="form-group">
+        <label>密码:</label>
+        <input name="psd" type="password" class="form-control" placeholder="请输入密码"/>
+    </div>
+    <div class="form-group">
+        <label>确认密码:</label>
+        <input name="repsd" type="password" class="form-control" placeholder="请确认密码"/>
+    </div>
+    <form action="" enctype="multipart/form-data" id="logo-form">
+    <div class="form-group">
+        <label>请上传logo图片:</label>
+        <input id="logoInput" name="images" type="file" />
+        <div class="logo-wrapper">
+            <img class="logo" src="http://placehold.it/150x150"/>
+        </div>
+    </div>
+    </form>
+    <form action="" enctype="multipart/form-data" id="banner-form">
+    <div class="form-group">
+        <label>请上传banner图片:</label>
+        <input name="images" type="file" id="bannerInput"/>
+        <div class="banner-wrapper">
+            <img class="banner" src="http://placehold.it/980x120"/>
+        </div>
+    </div>
+    </form>
+    <button id="confirm" class="btn btn-success btn-block" type="button">注册</button>
+    <button class="btn btn-danger btn-block" type="button">取消</button>
+</div>
+</body>
+</html>
+{% block css%}
+<style type="text/css" rel="stylesheet">
+   .logo-wrapper{
+       width: 150px;
+       height: 150px;
+       overflow: hidden;
+   }
+   .logo-wrapper img{
+       width: 100%;
+       height: 150px;
+   }
+    .banner-wrapper{
+        width: 980px;
+        height: 120px;
+        overflow: hidden;
+    }
+   .banner-wrapper img{
+       width: 100%;
+       height: 120px;
+   }
+
+
+
+</style>
+{% endblock%}

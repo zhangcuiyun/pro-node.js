@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>商家列表</h1>
+<ul class="seller-wrapper">
+    {% for item in sellerList %}
+    <a class="seller-item" href="/sellerDetail?id={{item._id.toString()}}">
+        <img src="{{item.logo}}"/>
+        <h1>{{item.username}}</h1>
+    </a>
+    {% endfor %}
+</ul>
+
+<!--有搜索-->
+{% if inp!='' %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li>
+            <a href="/sellerlist?inp={{inp}}&page={{currentPage-1}}&count={{count}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for num in pageArr %}
+        <li class="{{currentPage==num}}"><a href="/sellerlist?inp={{inp}}&page={{num}}&count={{count}}">{{num}}</a></li>
+        {% endfor %}
+        <li>
+            <a href="/sellerlist?inp={{inp}}&page={{currentPage+1}}&count={{count}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!--没搜索-->
+{% else %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li>
+            <a href="/sellerlist?page={{currentPage-1}}&count={{count}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for num in pageArr %}
+        <li class="{{currentPage==num}}"><a href="/sellerlist?page={{num}}&count={{count}}">{{num}}</a></li>
+        {% endfor %}
+        <li>
+            <a href="/sellerlist?page={{currentPage+1}}&count={{count}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock %}
+
+{% block css %}
+<style>
+    .seller-wrapper{
+        width: 980px;
+        margin: 0 auto;
+    }
+    .seller-wrapper .seller-item{
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        display: flex;
+    }
+    .seller-wrapper .seller-item img{
+        width: 100px;
+        height: 100px;
+    }
+    .seller-wrapper .seller-item h1{
+        margin-left: 10px;
+        flex: 1;
+    }
+    nav .pagination{
+        padding-left: 43%;
+        margin: 20px auto;
+    }
+    .pagination > .true > a{
+        z-index: 3;
+        color: #fff;
+        cursor: default;
+        background-color: #337ab7;
+        border-color: #337ab7;}
+</style>
+{% endblock %}
+
+{% block search%}
+<form class="navbar-form navbar-left">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search" id="search_inp">
+    </div>
+    <button type="button" class="btn btn-default" id="search">搜索</button>
+</form>
+{% endblock %}
+
+{% block js %}
+<script src="/public/buyer/js/sellerList.js"></script>
+{% endblock %}

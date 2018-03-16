@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/public/buyer/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/public/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/public/buyer/css/jquery.spinner.css">
+    <link rel="stylesheet" type="text/css" href="/public/buyer/carts.css">
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/public/bootstrap/js/bootstrap.js"></script>
+    <script src="/public/buyer/js/jquery.spinner.js"></script>
+    <script src="/public/buyer/js/carts.js"></script>
+    <script src="/public/buyer/js/user.js"></script>
+
+</head>
+<style>
+    .table img{
+        width: 40px;
+        height: 40px;
+    }
+    h2{
+        text-align: center;
+    }
+   input{
+       width: 41px;
+       text-align: center;
+   }
+    .back{
+        float: right;
+    }
+
+</style>
+<body>
+
+<div class="alert alert-info" role="alert">亲爱的:{{buyername}},欢迎来到个人中心  <a href="/" class="back">回到主页</a></div>
+<div class="panel panel-default">
+    <div class="panel-heading">购物车列表</div>
+    <div class="panel-body">
+        {% if cartInfo!='' %}
+        <table class="table">
+            <tr>
+                <th>商品名称</th>
+                <th>商品图片</th>
+                <th>尺寸</th>
+                <th>款式</th>
+                <th>数量</th>
+                <th>操作</th>
+            </tr>
+            {% for cart in cartInfo %}
+            <tr>
+                <td class="title">{{cart.goods.title}}</td>
+                <td ><img src="{{cart.goods.smallImage}}" alt=""></td>
+                <td class="size">{{cart.size}}</td>
+                <td class="style">{{cart.style}}</td>
+                <td class="count"><input class="cartNumber" type="number" value="{{cart.count}}" min="1"/></td>
+                <td><button class="btn btn-default delete_cart"  data-cart="{{cart._id.toString()}}">删除</button>
+                    <button class="btn btn-danger buy" data-cart="{{cart._id.toString()}}" data-goods='{{cart.goods._id.toString()}}' data-seller='{{cart.seller.toString()}}'>立即购买</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h2>您暂时购物车没有东西哦</h2>
+        {% endif %}
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">订单列表</div>
+    <div class="panel-body">
+        {% if orderInfo!='' %}
+        <table class="table">
+            <tr>
+                <th>商品名称</th>
+                <th>商品图片</th>
+                <th>尺寸</th>
+                <th>款式</th>
+                <th>数量</th>
+                <th>操作</th>
+            </tr>
+            {% for order in orderInfo %}
+            <tr>
+                <td>{{order.goods.title}}</td>
+                <td><img src="{{order.goods.smallImage}}" alt=""></td>
+                <td>{{order.size}}</td>
+                <td>{{order.style}}</td>
+                <td><input class="orderNumber" type="number" value="{{order.count}}" min="1"/></td>
+                <td><button class="btn btn-default delete_order" data-cart="{{order._id.toString()}}">删除</button>
+                    <button class="btn btn-danger">立即付款</button></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h2>您暂时没有订单哦</h2>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

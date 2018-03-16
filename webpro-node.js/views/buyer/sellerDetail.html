@@ -1,0 +1,87 @@
+{% extends './layout.html' %}
+{% block content %}
+<h1 class="title">
+    <img class="logo" src="{{sellerInfo.logo}}"/>
+    <span>{{sellerInfo.username}}</span>
+</h1>
+<div class="banner">
+    <img src="{{sellerInfo.banner}}"/>
+</div>
+<h2>新品上市</h2>
+<ul>
+    <div class="goods-wrapper">
+        {% for item in goodsList %}
+        <a class="goods-item" href="/goodsDetail?id={{item._id.toString()}}">
+            <img src="{{item.smallImage}}"/>
+            <h3>{{item.title}}</h3>
+            <p>{{item.description}}</p>
+            <p>{{item.price}}</p>
+        </a>
+        {% endfor %}
+    </div>
+</ul>
+{% endblock %}
+
+{% block css %}
+<style>
+    h2{
+        text-align: center;
+    }
+    .goods-wrapper{
+        width: 1123px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    .goods-wrapper .goods-item{
+        display: block;
+        width: 320px;
+        height: 400px;
+        margin: 27px;
+        border: 1px solid #ddd;
+        /* margin: 10px; */
+        float: left;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        position: relative;
+    }
+    .goods-wrapper .goods-item.active{
+        /*border: 1px solid red;*/
+        /*animation: all 10s linear;*/
+        box-shadow: 0px 0px 20px lightgray;
+    }
+    .goods-wrapper .goods-item img{
+        width: 320px;
+        height: 300px;
+        display: block;
+    }
+    .goods-wrapper .goods-item  h3{
+        font-size: 18px;
+        margin: 10px 0;
+    }
+    .goods-wrapper .goods-item  p:nth-of-type(1){
+        height: 20px;
+        overflow: hidden;
+    }
+    .banner{
+        width: 100%;
+        height: 150px;
+        overflow: hidden;
+    }
+    .banner img{
+        width: 100%;
+        height: 150px;
+    }
+    .logo{
+        width: 100px;
+        height: 100px;
+    }
+</style>
+{% endblock %}
+{% block js %}
+
+<script>
+$('.goods-wrapper .goods-item').on('mouseenter',function () {
+$(this).stop().animate({"top":'-4px'}).addClass('active').siblings().removeClass('active').stop().animate({"top":'0px'});
+})
+</script>
+{% endblock%}

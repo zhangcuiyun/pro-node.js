@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>buyer</title>
+    <link rel="stylesheet" type="text/css" href="/public/seller/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/public/bootstrap/css/bootstrap.css">
+    {% block css %}
+    {% endblock%}
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/public/bootstrap/js/bootstrap.js"></script>
+    <style type="text/css">
+        .seller_logout{
+            display: block;
+            float: right;
+            height: 50px;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:void(0)">商城后台管理系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="{{goodActive}}"><a href="/seller/goodsList">商品管理<span class="sr-only">(current)</span></a></li>
+                <li class="{{orderActive}}"><a href="/seller/orderList">订单管理</a></li>
+                <li class="{{centerActive}}"><a href="/seller/center">商家信息</a></li>
+            </ul>
+            <span></span>
+            <a href="/seller/logout" class="seller_logout">退出</a>
+        </div>
+    </div>
+</nav>
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+{% block js %}
+{% endblock %}
+
+</body>
+</html>

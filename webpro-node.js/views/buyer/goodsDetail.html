@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+{% block content %}
+<!--商家信息-->
+<h1 class="title"><img src="{{goodsInfo.seller.logo}}" alt="" width='200' height="200"><span>{{goodsInfo.seller.username}}</span></h1>
+<div class="banner">
+    <img src="{{goodsInfo.seller.banner}}" alt="" width='800' height="200">
+</div>
+<div class="goods-info clearfix">
+    <div class="good_left">
+        <img src="{{goodsInfo.smallImage}}" alt="">
+    </div>
+    <div class="good_right">
+            <h3>{{goodsInfo.title}}</h3>
+            <p class="des">{{goodsInfo.description}}</p>
+            <p class="price">价格: {{goodsInfo.price}}</p>
+        <div class="clearfix">
+            <p class="size">尺寸:</p><ul class="size-wrapper clearfix">
+            {% for i in goodsInfo.size %}
+            <li>{{ i }}</li>
+            {% endfor %}
+           </ul>
+        </div>
+            <div class="clearfix">
+            <p class="style">款式:</p>
+            <ul class="style-wrapper clearfix">
+                {% for i in goodsInfo.style %}
+                <li>{{ i }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        <div class="num">
+            <span class="count">数量:</span>
+        <input type="text" class="spinnerExample"/>
+        </div>
+        <button id="add_now" class="btn btn-default" data-seller='{{goodsInfo.seller._id.toString()}}' data-goods="{{goodsInfo._id.toString()}}">添加到购物车</button>
+        <button id="buy_now" class="btn btn-default" data-seller='{{goodsInfo.seller._id.toString()}}' data-goods="{{goodsInfo._id.toString()}}">立即购买</button>
+        </div>
+</div>
+<div class="detail">
+    <h3>商品详情图片</h3>
+    {% for image in goodsInfo.bigImages %}
+    <img src="{{image}}" alt=""> <br>
+    {% endfor %}
+</div>
+<!--聊天室-->
+<div class="room" data-info="{{buyername}}" data-sel="{{goodsInfo.seller.username}}">
+     <span class="x">X</span>
+    <ul class="chat-list">
+
+    </ul>
+    <div class="input-box">
+        <textarea class="input"></textarea>
+        <button id="send">发送</button>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+<script src="/public/buyer/js/jquery.spinner.js"></script>
+<script src="/public/buyer/js/goodsDetail.js"></script>
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/public/buyer/css/jquery.spinner.css">
+<link rel="stylesheet" type="text/css" href="/public/buyer/css/goodsDetail.css">
+{% endblock %}

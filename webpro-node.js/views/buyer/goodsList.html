@@ -1,0 +1,176 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>商品列表</h1>
+<!--`-->
+{% if inp!='' %}
+<a class="btn btn-default" href="/goodslist?inp={{inp}}&sort=1">按价格排序</a>
+{% else %}
+<a class="btn btn-default" href="/goodslist?sort=1">按价格排序</a>
+{% endif %}
+
+<div class="goods-wrapper">
+    <ul class="goods-all clearfix">
+        {% for item in goodsList %}
+        <li>
+            <a href="/goodsDetail?id={{item._id.toString()}}">
+                <img src="{{item.smallImage}}" alt="">
+                <h3>{{item.title}}</h3>
+                <p>{{item.description}}</p>
+                <p>价格: {{item.price}}</p>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+<!--有搜索-->
+{% if inp!='' %}
+<!--有排序-->
+{% if sort!='' %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li>
+            <a href="/goodslist?inp={{inp}}&sort=1&page={{currentPage-1}}&count={{count}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for num in pageArr %}
+        <li class="{{currentPage==num}}"><a href="/goodslist?inp={{inp}}&sort=1&page={{num}}&count={{count}}">{{num}}</a></li>
+        {% endfor %}
+
+        <li>
+            <a href="/goodslist?inp={{inp}}&sort=1&page={{currentPage+1}}&count={{count}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!--没有排序-->
+{% else %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li>
+            <a href="/goodslist?inp={{inp}}&page={{currentPage-1}}&count={{count}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for num in pageArr %}
+        <li class="{{currentPage==num}}"><a href="/goodslist?inp={{inp}}&page={{num}}&count={{count}}">{{num}}</a></li>
+        {% endfor %}
+        <li>
+            <a href="/goodslist?inp={{inp}}&page={{currentPage+1}}&count={{count}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+<!--没搜索-->
+{% else %}
+<!--有排序-->
+{% if sort!='' %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li>
+            <a href="/goodslist?sort=1&page={{currentPage-1}}&count={{count}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for num in pageArr %}
+        <li class="{{currentPage==num}}"><a href="/goodslist?sort=1&page={{num}}&count={{count}}">{{num}}</a></li>
+        {% endfor %}
+
+        <li>
+            <a href="/goodslist?sort=1&page={{currentPage+1}}&count={{count}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!--没有排序-->
+{% else %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li>
+            <a href="/goodslist?page={{currentPage-1}}&count={{count}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for num in pageArr %}
+        <li class="{{currentPage==num}}"><a href="/goodslist?page={{num}}&count={{count}}">{{num}}</a></li>
+        {% endfor %}
+        <li>
+            <a href="/goodslist?page={{currentPage+1}}&count={{count}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+{% endif %}
+
+{% endblock %}
+
+{% block css %}
+<style>
+    .goods-wrapper{
+        width: 1123px;
+        margin: 0 auto;
+    }
+    .goods-wrapper .goods-all{
+        width: 1123px;
+        margin: 0 auto;
+    }
+    .goods-wrapper .goods-all li{
+        float: left;
+        width: 320px;
+        height: 400px;
+        margin: 27px;
+        border: 1px solid #ddd;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        position: relative;
+    }
+    .goods-wrapper .goods-all li.active{
+        /*border: 1px solid red;*/
+        /*animation: all 10s linear;*/
+        box-shadow: 0px 0px 20px lightgray;
+    }
+    .goods-wrapper .goods-all li img{
+        width: 320px;
+        height: 300px;
+    }
+    .goods-wrapper .goods-all li h3{
+        font-size: 18px;
+        margin: 10px 0;
+    }
+    .goods-wrapper .goods-all li p:nth-of-type(1){
+        height: 20px;
+        overflow: hidden;
+    }
+   nav .pagination{
+        padding-left: 46%;
+        margin: 20px auto;
+    }
+    .pagination > .true > a{
+        z-index: 3;
+        color: #fff;
+        cursor: default;
+        background-color: #337ab7;
+        border-color: #337ab7;}
+</style>
+{% endblock %}
+
+{% block search%}
+<form class="navbar-form navbar-left">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search" id="search_inp">
+    </div>
+    <button type="button" class="btn btn-default" id="search">搜索</button>
+</form>
+{% endblock %}
+
+{% block js %}
+<script src="/public/buyer/js/goodsList.js"></script>
+{% endblock %}
+
